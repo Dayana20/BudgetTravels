@@ -7,7 +7,6 @@ Examples:
 Nagpur, Nagpur District, Maharashtra, 440001, India
 (21.1498134, 79.0820556)
 
-
 '''
 
 import requests
