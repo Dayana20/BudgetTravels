@@ -13,6 +13,7 @@ Nagpur, Nagpur District, Maharashtra, 440001, India
 
 import requests
 import json
+from datetime import datetime
 
 
 #city_name = input("City: ")
@@ -23,4 +24,8 @@ lon = '79.0820556'
 link = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+API_key
 response = requests.get(link)
 data = response.json()
-print(data)
+for elem in data["daily"]:
+    print(elem)
+    
+ts = int("")
+print(datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
