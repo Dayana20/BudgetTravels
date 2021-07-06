@@ -7,7 +7,5 @@ Main Input From User: Date, Country
 Steps:
 * 3 files for each one (e.g weather, safety, holidays)
 
-
-
 https://medium.com/analytics-vidhya/how-to-generate-lat-and-long-coordinates-of-city-without-using-apis-25ebabcaf1d5
 '''
