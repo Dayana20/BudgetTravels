@@ -62,6 +62,7 @@ os.system('mysql -u root -pcodio ' + dbName + ' < ' + fileName + '.sql')
 tableName = 'weather_table'
 df = pd.read_sql_table(tableName, con=engine)
 
+
 # # write_table
 os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '
               + dbName + '; "')
