@@ -19,7 +19,7 @@ lon = location.raw['lon']
 API_key = 'ea395ebe708b1af005b17243cbc20ac9'
 #lat = '21.1498134'
 #lon = '79.0820556'
-link = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+API_key+'&units=imperal'
+link = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+API_key+'&units=imperial'
 response = requests.get(link)
 data = response.json()
 dt_temp = [] # dummy list
@@ -74,5 +74,3 @@ print(engine.execute("SELECT * FROM "+tableName).fetchall()) ##not working
 # #save data to fileName
 info.to_sql('weather_table', con=engine, if_exists='replace', index=False)
 os.system('mysqldump -u root -pcodio {} > {}.sql'.format(dbName, fileName))
-
-
