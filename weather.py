@@ -4,7 +4,6 @@ from datetime import datetime
 from geopy.geocoders import Nominatim # pip install Nominatim and sudo pip install geopy 
 
 city_name = input("City: ")
-
 # get lat and lon from city name to use for weather api
 geolocator = Nominatim(user_agent='myapplication')
 location = geolocator.geocode("Guayaquil")
