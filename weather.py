@@ -60,13 +60,16 @@ engine = create_engine('mysql://root:codio@localhost/' + dbName)
 os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' + dbName + '; "')
 os.system('mysql -u root -pcodio ' + dbName + ' < ' + fileName + '.sql')
 tableName = 'weather_table'
+
+info.to_sql(tableName, con=engine, if_exists='replace', index=False)
 df = pd.read_sql_table(tableName, con=engine)
 
 
-# # write_table
+# write_table
 os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '
               + dbName + '; "')
 info.to_sql('weather_table', con=engine, if_exists='replace', index=False)
+print(engine.execute("SELECT * FROM "+tableName).fetchall()) ##not working
 
 # #save data to fileName
 info.to_sql('weather_table', con=engine, if_exists='replace', index=False)
