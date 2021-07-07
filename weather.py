@@ -7,6 +7,7 @@ import os
 import sqlalchemy
 from sqlalchemy import create_engine
 from geopy.geocoders import Nominatim # pip install Nominatim and sudo pip install geopy 
+import matplotlib.pyplot as plt
 
 city_name = input("City: ")
 # get lat and lon from city name to use for weather api
@@ -22,11 +23,12 @@ API_key = 'ea395ebe708b1af005b17243cbc20ac9'
 link = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+API_key+'&units=imperial'
 response = requests.get(link)
 data = response.json()
-dt_temp = [] # dummy list
+dt = [] # week
 dic = {}
 for elem in data["daily"]:
     #dt_format = str(datetime.utcfromtimestamp(elem["dt"]).strftime('%Y-%m-%d %H:%M:%S'))
     dt_format = str(datetime.utcfromtimestamp(elem["dt"]).strftime('%Y-%m-%d')) # not including the time
+    dt.append(str(datetime.utcfromtimestamp(elem["dt"]).strftime('%m/%d')))
     # dt_temp.append([dt_format,elem["temp"]])
     # dt_temp.append(f'{dt_format},{elem["temp"]}')
     dic[dt_format] = elem["temp"]
@@ -48,8 +50,8 @@ for elem in data["daily"]:
 info = pd.DataFrame.from_dict(dic, orient = 'index')
 info = info.reset_index() ##includes index as a column and makes the index numbered
 info = info.rename(columns={'index':'date','day':'temp'})
-print(info)
-print(info.columns)
+# print(info)
+# print(info.columns)
 
 
 # get started with the dataframe
@@ -69,8 +71,13 @@ df = pd.read_sql_table(tableName, con=engine)
 os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '
               + dbName + '; "')
 info.to_sql('weather_table', con=engine, if_exists='replace', index=False)
-print(engine.execute("SELECT * FROM "+tableName).fetchall()) ##not working
+# print(engine.execute("SELECT * FROM "+tableName).fetchall()) ##not working
 
 # #save data to fileName
 info.to_sql('weather_table', con=engine, if_exists='replace', index=False)
 os.system('mysqldump -u root -pcodio {} > {}.sql'.format(dbName, fileName))
+
+# visualiation
+df.plot.bar(x='date', y='temp')
+plt.title(location.address)
+plt.savefig('weather_bar.png')
