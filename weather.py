@@ -53,7 +53,6 @@ info = info.rename(columns={'index':'date','day':'temp'})
 # print(info)
 # print(info.columns)
 
-
 # get started with the dataframe
 # update
 dbName = 'weather'
