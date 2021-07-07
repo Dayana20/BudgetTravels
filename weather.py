@@ -26,5 +26,6 @@ for elem in data["daily"]:
     temp.append(elem["temp"])
     dt_temp.append(f'{dt_format},{elem["temp"]}')
 
+
 for elem in dt_temp:
     print(elem)
