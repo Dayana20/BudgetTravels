@@ -17,27 +17,27 @@ def build_url(country, api_key):
     return 'https://www.googleapis.com/calendar/v3/calendars/en.' + country + '%23holiday%40group.v.calendar.google.com/events?key=' + api_key
 
 
+# get json from url
 def get_json(url):
     response = requests.get(url)
+    #print(response) # added this
     return response.json()
 
 
-def build_dict(url):
-    data = get_json(url)
+# build useful dictionary from json
+def build_dict(json):
     holiday_dict = {}
-    print(data)
-    for holiday in data['items']:
+    for holiday in json['items']:
         holiday_dict[holiday['summary']]= {holiday['start']['date'], holiday['end']['date']}
     return holiday_dict
 
 
 def build_dataframe(dic):
-    dic = build_dict()
+    #dic = build_dict(json)
     # creating dataframe from dictionary
     holiday_df = pd.DataFrame.from_dict(dic, orient = 'index', columns = ['start_date', 'end_date'])
     holiday_df = holiday_df.reset_index()
     holiday_df = holiday_df.rename(columns = {'index': 'holiday'})
-    print(holiday_df)
     return holiday_df
 
 
@@ -62,14 +62,22 @@ def update_database(dbName, tableName, fileName, engine):
     df = pd.read_sql_table(tableName, con=engine)
     return df
 
-
-
-    
+def main():
+    country_name = 'uk'
+    api_key = get_api()
+    url = build_url(country_name, api_key) # moved this up here
+    json = get_json(url)
+    # print(json)
+    dic = build_dict(json)
+#     print(dic)
+    df = build_dataframe(dic)
+    print(df)
     
     
     
 # if __name__ == "__main__":
 #     main()
+
 
 #holiday_df.to_sql(tableName, con=engine, if_exists='replace', index=False)
 
